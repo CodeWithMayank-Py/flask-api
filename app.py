@@ -45,5 +45,12 @@ def update_task(task_id):
     task.update(data)
     return jsonify(task)
 
+# Deleting task by ID
+@app.route('/tasks/<int:task_id>', methods=['DELETE'])
+def delete_task(task_id):
+    global tasks
+    tasks = [task for task in tasks if task['id'] != task_id]
+    return jsonify({"message":"Task deleted"}), 200
+
 if __name__ == '__main__':
     app.run(debug=True)
