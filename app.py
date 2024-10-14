@@ -35,7 +35,7 @@ def get_task_byID(task_id):
     return jsonify(task)
 
 # Updating Task by ID
-@app.route('/tasks/<int:task_id>', mehtods=['PUT'])
+@app.route('/tasks/<int:task_id>', methods=['PUT'])
 def update_task(task_id):
     task = next((task for task in tasks if task['id'] == task_id), None)
     if task is None:
