@@ -34,5 +34,16 @@ def get_task_byID(task_id):
         return jsonify({"error":"Task Not found"}), 404
     return jsonify(task)
 
+# Updating Task by ID
+@app.route('/tasks/<int:task_id>', mehtods=['PUT'])
+def update_task(task_id):
+    task = next((task for task in tasks if task['id'] == task_id), None)
+    if task is None:
+        return jsonify({"error":"Task not found"}), 404
+    
+    data = request.json
+    task.update(data)
+    return jsonify(task)
+
 if __name__ == '__main__':
     app.run(debug=True)
