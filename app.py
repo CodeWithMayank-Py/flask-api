@@ -40,7 +40,7 @@ def update_task(task_id):
         if task['id'] == task_id:
             task.update(updated_task)
             return jsonify(task), 200 # 200: Successfully Updated
-    return jsonify({"error": "Task not found"}), 404 # 404: Error Occured on Client Side
+    return jsonify({"error": "Task not found"}), 404 # 404: Not Found ERROR
 
 # DELETE: Delete a task
 @app.route('/tasks/<int:task_id>', methods=['DELETE'])
@@ -48,11 +48,9 @@ def delete_task(task_id):
     delete_task = request.json
     for task in tasks:
         if task['id'] == task_id:
-            pass
-            
-    
-
-
+            tasks.remove(task)
+            return jsonify({"message": "Task delete successfully"}), 200 # 200: Successfully deleted
+    return jsonify({"error": "Task not found"}), 404 # Not Found Error
 
 if __name__ == '__main__':
     app.run(debug=True)
