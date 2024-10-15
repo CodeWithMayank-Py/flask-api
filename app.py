@@ -86,6 +86,18 @@ def update_task(task_id):
 # DELETE: Delete a task
 @app.route('/tasks/<int:task_id>', methods=['DELETE'])
 def delete_task(task_id):
+    """
+    Delete an existing data with the given task_id.
+    
+    This function retrieves the deleted task data from the request's JSON payload
+    and deletes the corresponding task in the tasks list if it exist.
+
+    Args:
+        task_id (int): The unique identfier of task to be deleted.
+
+    Returns:
+        Response: 
+    """
     for task in tasks:
         if task['id'] == task_id:
             tasks.remove(task)
