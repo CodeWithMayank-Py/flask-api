@@ -42,6 +42,17 @@ def get_users():
 # POST: Create a new task
 @app.route('/tasks', methods=['POST'])
 def create_task():
+    """
+    Create a new task.
+    
+    This function creates a new task from the JSON data provided in the request.
+    It assigns a unique ID to the task based on the current number of tasks and
+    appends the new task to the tasks data source.
+
+    Returns:
+        tuple: A tuple containing the JSON representations of the new tasks and
+                the HTTP code 201 indicating successfully creation of task.
+    """
     new_task = request.json
     new_task['id'] = len(tasks)+ 1
     tasks.append(new_task)
