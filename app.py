@@ -28,6 +28,15 @@ def homepage():
 # Get fetch all users using GET method
 @app.route('/users', methods=['GET'])
 def get_users():
+    """
+    Retrieves the list of uesrs.
+    
+    This function fetches and returns a list of users from the data source.
+    The data source could be a database, an API or any other data storage system.
+
+    Returns:
+        list: A list of users objects or dictionaries containing user information.
+    """
     return jsonify(users)
 
 # POST: Create a new task
