@@ -96,7 +96,10 @@ def delete_task(task_id):
         task_id (int): The unique identfier of task to be deleted.
 
     Returns:
-        Response: 
+        Response: A JSON containing the deleted tasks and status code of 200
+        if the task deleted successfully.
+        A JSON response with the error message and status code of 404
+        if the taskwith the given task_id is not found.
     """
     for task in tasks:
         if task['id'] == task_id:
