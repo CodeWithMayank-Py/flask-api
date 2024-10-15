@@ -127,4 +127,4 @@ def delete_task(task_id):
     return jsonify({"error": "Task not found"}), 404 # Not Found Error
 
 if __name__ == '__main__':
-    app.run(debug=True, ssl_context=('cert.pem', 'key.pem'))
+    app.run(debug=True, port=5001, ssl_context=('cert.pem', 'key.pem'))
