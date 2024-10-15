@@ -1,2 +1,6 @@
 # Ignore venv directory
 venv/
+
+# keys
+cert.pem
+key.pem
