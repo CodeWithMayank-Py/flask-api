@@ -39,6 +39,20 @@ def get_users():
     """
     return jsonify(users)
 
+# Get fetch all the tasks
+@app.route('/tasks', methods=['GET'])
+def get_tasks():
+    """
+    Retrieve the list of tasks.
+
+    This function returns the current list of tasks in JSON format.
+    
+    Returns:
+        Response: A JSON response containing the tasks.
+    """
+    return jsonify(tasks)
+
+
 # POST: Create a new task
 @app.route('/tasks', methods=['POST'])
 def create_task():
