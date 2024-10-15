@@ -86,7 +86,6 @@ def update_task(task_id):
 # DELETE: Delete a task
 @app.route('/tasks/<int:task_id>', methods=['DELETE'])
 def delete_task(task_id):
-    delete_task = request.json
     for task in tasks:
         if task['id'] == task_id:
             tasks.remove(task)
