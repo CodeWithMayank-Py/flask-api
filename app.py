@@ -61,6 +61,18 @@ def create_task():
 # PUT: Update an existing Task
 @app.route('/tasks/<int:task_id>', methods=['PUT'])
 def update_task(task_id):
+    """
+    Updates an existing data with the provided task_id.
+    
+    This function retrieves the updated task data from the request's JSON payload
+    and updates the corresponding task in the tasks list if it exists.
+    
+    Args:
+        task_id (int): The unique identifier of the task to be updated.
+
+    Returns:
+        Response:  
+    """
     updated_task = request.json
     for task in tasks:
         if task['id'] == task_id:
