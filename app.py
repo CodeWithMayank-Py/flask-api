@@ -17,6 +17,12 @@ tasks = [
 # Homepage
 @app.route('/')
 def homepage():
+    """
+    Display the message on / route
+
+    Returns:
+        message: Hello Developers Message on / route as a sign of homepage.
+    """
     return "Hello, Developers! Welcome to simple flask APIs."
 
 # Get fetch all users using GET method
