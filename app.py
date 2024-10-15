@@ -46,6 +46,8 @@ def get_users():
     """
     Retrieves the list of uesrs.
     
+    Rate Limited applied, 10 request per minute.
+    
     This function fetches and returns a list of users from the data source.
     The data source could be a database, an API or any other data storage system.
 
@@ -54,11 +56,14 @@ def get_users():
     """
     return jsonify(users)
 
-# Get fetch all the tasks
+# Get fetch all the tasks [Rate limit applied]
 @app.route('/tasks', methods=['GET'])
+@limiter.limit("10 per minute")
 def get_tasks():
     """
     Retrieve the list of tasks.
+    
+    Rate limit applied, 10 request per minute.
 
     This function returns the current list of tasks in JSON format.
     
@@ -68,11 +73,14 @@ def get_tasks():
     return jsonify(tasks)
 
 
-# POST: Create a new task
+# POST: Create a new task [Rate limit applied]
 @app.route('/tasks', methods=['POST'])
+@limiter.limit("5 per minute")
 def create_task():
     """
     Create a new task.
+    
+    Rate limit applied, 5 request per minute.
     
     This function creates a new task from the JSON data provided in the request.
     It assigns a unique ID to the task based on the current number of tasks and
@@ -87,11 +95,14 @@ def create_task():
     tasks.append(new_task)
     return jsonify(new_task), 201 # 201: Task Creation
 
-# PUT: Update an existing Task
+# PUT: Update an existing Task [Rate limit applied]
 @app.route('/tasks/<int:task_id>', methods=['PUT'])
+@limiter.limit("5 per minute")
 def update_task(task_id):
     """
     Updates an existing data with the provided task_id.
+    
+    Rate limit applied, 5 request per minute.
     
     This function retrieves the updated task data from the request's JSON payload
     and updates the corresponding task in the tasks list if it exists.
@@ -112,11 +123,14 @@ def update_task(task_id):
             return jsonify(task), 200 # 200: Successfully Updated
     return jsonify({"error": "Task not found"}), 404 # 404: Not Found ERROR
 
-# DELETE: Delete a task
+# DELETE: Delete a task [Rate limit applied]
 @app.route('/tasks/<int:task_id>', methods=['DELETE'])
+@limiter.limit("5 per minute")
 def delete_task(task_id):
     """
     Delete an existing data with the given task_id.
+    
+    Rate limit applied, 5 requests per minute.
     
     This function retrieves the deleted task data from the request's JSON payload
     and deletes the corresponding task in the tasks list if it exist.
