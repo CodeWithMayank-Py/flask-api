@@ -98,7 +98,7 @@ def create_task():
     tasks.append(new_task)
     return jsonify(new_task), 201 # 201: Task Creation
 
-# PUT: Update an existing Task [rate limiting + throttling]
+# PUT: Update an existing Task [rate limiting + throttling], [Idempotent]
 @app.route('/tasks/<int:task_id>', methods=['PUT'])
 @limiter.limit("5 per 10 seconds")  # Burst limit
 @limiter.limit("20 per minute")     # Throttle limit
@@ -125,7 +125,12 @@ def update_task(task_id):
         if task['id'] == task_id:
             task.update(updated_task)
             return jsonify(task), 200 # 200: Successfully Updated
-    return jsonify({"error": "Task not found"}), 404 # 404: Not Found ERROR
+    
+    # If the task does not exist, you should create it (optional based on API design)
+    new_task = update_task
+    new_task['id'] = task_id
+    tasks.append(new_task)
+    return jsonify(new_task), 201   # Returns 201 created if new task is added
 
 # DELETE: Delete a task [rate limiting + throttling]
 @app.route('/tasks/<int:task_id>', methods=['DELETE'])
