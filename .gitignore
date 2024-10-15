@@ -1,6 +1,6 @@
 # Ignore venv directory
 venv/
 
-# keys
+# SSL certificates
 cert.pem
 key.pem
