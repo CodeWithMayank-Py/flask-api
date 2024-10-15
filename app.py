@@ -132,7 +132,7 @@ def update_task(task_id):
     tasks.append(new_task)
     return jsonify(new_task), 201   # Returns 201 created if new task is added
 
-# DELETE: Delete a task [rate limiting + throttling]
+# DELETE: Delete a task [rate limiting + throttling], [Idempotent]
 @app.route('/tasks/<int:task_id>', methods=['DELETE'])
 @limiter.limit("5 per 10 seconds")  # Burst limit
 @limiter.limit("20 per minute")     # Throttle limit
