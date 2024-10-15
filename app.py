@@ -127,7 +127,7 @@ def update_task(task_id):
             return jsonify(task), 200 # 200: Successfully Updated
     
     # If the task does not exist, you should create it (optional based on API design)
-    new_task = update_task
+    new_task = updated_task
     new_task['id'] = task_id
     tasks.append(new_task)
     return jsonify(new_task), 201   # Returns 201 created if new task is added
@@ -161,4 +161,6 @@ def delete_task(task_id):
     return jsonify({"error": "Task not found"}), 404 # Not Found Error
 
 if __name__ == '__main__':
-    app.run(debug=True, port=5001, ssl_context=('cert.pem', 'key.pem'))
+    app.run(debug=True)
+    # app.run(debug=True, port=5001, ssl_context=('cert.pem', 'key.pem')) 
+    # SSl included in above, Self-signed ceritficte
