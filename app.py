@@ -71,7 +71,10 @@ def update_task(task_id):
         task_id (int): The unique identifier of the task to be updated.
 
     Returns:
-        Response:  
+        Response: A JSON response containing the updated task and the status code 200
+        if the task is successfully updated.
+        A JSON response with an error message and a status code of 404 if the
+        task with the given task_id is not found.
     """
     updated_task = request.json
     for task in tasks:
