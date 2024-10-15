@@ -41,7 +41,8 @@ def homepage():
 
 # Get fetch all users using GET method [Rate limiting + throttling]
 @app.route('/users', methods=['GET'])
-@limiter.limit("5 per 10 seconds", "20 per minute") # Same burst + throttle pattern
+@limiter.limit("5 per 10 seconds")  # Burst limit
+@limiter.limit("20 per minute")     # Throttle limit
 def get_users():
     """
     Retrieves the list of uesrs.
@@ -58,7 +59,8 @@ def get_users():
 
 # Get fetch all the tasks [rate limiting + throttling]
 @app.route('/tasks', methods=['GET'])
-@limiter.limit("5 per 10 seconds", "20 per minute")
+@limiter.limit("5 per 10 seconds")  # Burst limit
+@limiter.limit("20 per minute")     # Throttle limit
 def get_tasks():
     """
     Retrieve the list of tasks.
@@ -75,7 +77,8 @@ def get_tasks():
 
 # POST: Create a new task [rate limiting + throttling]
 @app.route('/tasks', methods=['POST'])
-@limiter.limit("5 per 10 seconds", "20 per minute")
+@limiter.limit("5 per 10 seconds")  # Burst limit
+@limiter.limit("20 per minute")     # Throttle limit
 def create_task():
     """
     Create a new task.
@@ -97,7 +100,8 @@ def create_task():
 
 # PUT: Update an existing Task [rate limiting + throttling]
 @app.route('/tasks/<int:task_id>', methods=['PUT'])
-@limiter.limit("5 per 10 seconds", "20 per minute")
+@limiter.limit("5 per 10 seconds")  # Burst limit
+@limiter.limit("20 per minute")     # Throttle limit
 def update_task(task_id):
     """
     Updates an existing data with the provided task_id.
@@ -125,7 +129,8 @@ def update_task(task_id):
 
 # DELETE: Delete a task [rate limiting + throttling]
 @app.route('/tasks/<int:task_id>', methods=['DELETE'])
-@limiter.limit("5 per 10 seconds", "20 per minute")
+@limiter.limit("5 per 10 seconds")  # Burst limit
+@limiter.limit("20 per minute")     # Throttle limit
 def delete_task(task_id):
     """
     Delete an existing data with the given task_id.
