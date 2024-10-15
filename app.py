@@ -10,6 +10,13 @@ app = Flask(__name__)
 # Enabl CORS for all routes
 CORS(app)
 
+# Initialize Flask-Limiter with default time (e.g 5 requests per minute per IP)
+limiter = Limiter(
+    get_remote_address,
+    app=app,
+    default_limits=["5 per minute"]
+)
+
 # Dummy data to simulate resources
 users = [
     {"id":1, "name": "John Smith"},
