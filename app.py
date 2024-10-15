@@ -39,8 +39,9 @@ def homepage():
     """
     return "Hello, Developers! Welcome to simple flask APIs."
 
-# Get fetch all users using GET method
+# Get fetch all users using GET method [Rate limit applied]
 @app.route('/users', methods=['GET'])
+@limiter.limit("10 per minute") # Custom limit for this endpoint
 def get_users():
     """
     Retrieves the list of uesrs.
