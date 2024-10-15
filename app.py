@@ -1,7 +1,12 @@
 # Import modules
 from flask import Flask, jsonify, request
+from flask_cors import CORS
 
+# Initializes Flask App
 app = Flask(__name__)
+
+# Enabl CORS for all routes
+CORS(app)
 
 # Dummy data to simulate resources
 users = [
@@ -122,4 +127,4 @@ def delete_task(task_id):
     return jsonify({"error": "Task not found"}), 404 # Not Found Error
 
 if __name__ == '__main__':
-    app.run(debug=True)
+    app.run(debug=True, ssl_context=('cert.pem', 'key.pem'))
