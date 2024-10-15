@@ -41,12 +41,12 @@ def homepage():
 
 # Get fetch all users using GET method [Rate limit applied]
 @app.route('/users', methods=['GET'])
-@limiter.limit("10 per minute") # Custom limit for this endpoint
+@limiter.limit("5 per minute") # Custom limit for this endpoint
 def get_users():
     """
     Retrieves the list of uesrs.
     
-    Rate Limited applied, 10 request per minute.
+    Rate Limited applied, 5 request per minute.
     
     This function fetches and returns a list of users from the data source.
     The data source could be a database, an API or any other data storage system.
@@ -58,12 +58,12 @@ def get_users():
 
 # Get fetch all the tasks [Rate limit applied]
 @app.route('/tasks', methods=['GET'])
-@limiter.limit("10 per minute")
+@limiter.limit("5 per minute")
 def get_tasks():
     """
     Retrieve the list of tasks.
     
-    Rate limit applied, 10 request per minute.
+    Rate limit applied, 5 request per minute.
 
     This function returns the current list of tasks in JSON format.
     
