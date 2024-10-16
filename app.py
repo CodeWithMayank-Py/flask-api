@@ -69,6 +69,28 @@ def get_users():
     """
     return jsonify(users)
 
+
+# GET: Fetch a single task [rate limiting + throttling], HATEOAS-enabled
+@app.route('/tasks/<int:task_id>', methods=['GET'])
+@limiter.limit("5 per 10 seconds")  # Burst Limit
+@limiter.limit("20 per minute")     # Throttle Limit
+def get_task(task_id):
+    """
+    Retrieve a task by its ID and return it with HATEOAS links if found.
+
+    Args:
+        task_id (int): The unique identifier of the task to retrieve.
+
+    Returns:
+        Response: A JSON] response containing the task with HATEOAS links if found,
+                  or an error message with a 404 status code if not found.
+    """
+    task = next((task for task in tasks if task['id'] == task_id), None)
+    if task:
+        return jsonify(add_hateoas_links(task))
+    return jsonify({"error": "Task not found"}), 404
+
+
 # Get fetch all the tasks [rate limiting + throttling], HATEOAS-enabld
 @app.route('/tasks', methods=['GET'])
 @limiter.limit("5 per 10 seconds")  # Burst limit
@@ -84,17 +106,8 @@ def get_tasks():
     Returns:
         Response: A JSON response containing the tasks.
     """
-    return jsonify(tasks)
-
-# GET: Fetch a single task [rate limiting + throttling], HATEOAS-enabled
-@app.route('/tasks/<int:task_id>', methods=['GET'])
-@limiter.limit("5 per 10 seconds")  # Burst Limit
-@limiter.limit("20 per minute")     # Throttle Limit
-def get_task(task_id):
-    task = next((task for task in tasks if task['id']==task_id), None)
-    if task:
-        return jsonify(add_hateoas_links(task))
-    return jsonify({"error": "Task not found"}), 404
+    tasks_with_link = [add_hateoas_links(task) for task in tasks]
+    return jsonify(tasks_with_link)
 
 
 # POST: Create a new task [rate limiting + throttling]
