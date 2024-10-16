@@ -131,7 +131,7 @@ def create_task():
     new_task = request.json
     new_task['id'] = len(tasks)+ 1
     tasks.append(new_task)
-    return jsonify(new_task), 201 # 201: Task Creation
+    return jsonify(add_hateoas_links(new_task)), 201 # 201: Task Creation
 
 # PUT: Update an existing Task [rate limiting + throttling], [Idempotent]
 @app.route('/tasks/<int:task_id>', methods=['PUT'])
@@ -159,13 +159,13 @@ def update_task(task_id):
     for task in tasks:
         if task['id'] == task_id:
             task.update(updated_task)
-            return jsonify(task), 200 # 200: Successfully Updated
+            return jsonify(add_hateoas_links(task)), 200 # 200: Successfully Updated
     
     # If the task does not exist, you should create it (optional based on API design)
     new_task = updated_task
     new_task['id'] = task_id
     tasks.append(new_task)
-    return jsonify(new_task), 201   # Returns 201 created if new task is added
+    return jsonify(add_hateoas_links(new_task)), 201   # Returns 201 created if new task is added
 
 # DELETE: Delete a task [rate limiting + throttling], [Idempotent]
 @app.route('/tasks/<int:task_id>', methods=['DELETE'])
