@@ -1,5 +1,5 @@
 # Import modules
-from flask import Flask, jsonify, request
+from flask import Flask, jsonify, request, url_for
 from flask_cors import CORS
 from flask_limiter import Limiter
 from flask_limiter.util import get_remote_address
@@ -27,6 +27,14 @@ tasks = [
     {"id":1, "title": "Working on Daily Reports", "description": "Day 1"},
     {"id":2, "title": "Sailing the ship", "description": "Roaming around the world"},
 ]
+
+# Helper function to add HATEOAS links
+def add_hateoas_links(task):
+    task_id = task['id']
+    task['links']= [
+        {"rel": "self", "href": url_for('get_task', task_id=task_id, _external=True)},
+    ]
+
 
 # Homepage
 @app.route('/')
