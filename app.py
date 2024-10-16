@@ -35,7 +35,7 @@ def add_hateoas_links(task):
         {"rel": "self", "href": url_for('get_task', task_id=task_id, _external=True)},
         {"rel": "delete", "href": url_for('delete_task', task_id=task_id, _external=True), "method": "DELETE"},
         {"rel": "update", "href": url_for('update_task', task_id=task_id, _external=True), "method": "PUT"},
-        {"rel": "list", "href": url_for('get_task', _external=True), "method": "GET"}
+        {"rel": "list", "href": url_for('get_tasks', _external=True), "method": "GET"}
     ]
     return task
 
@@ -69,7 +69,7 @@ def get_users():
     """
     return jsonify(users)
 
-# Get fetch all the tasks [rate limiting + throttling]
+# Get fetch all the tasks [rate limiting + throttling], HATEOAS-enabld
 @app.route('/tasks', methods=['GET'])
 @limiter.limit("5 per 10 seconds")  # Burst limit
 @limiter.limit("20 per minute")     # Throttle limit
@@ -87,10 +87,10 @@ def get_tasks():
     return jsonify(tasks)
 
 # GET: Fetch a single task [rate limiting + throttling], HATEOAS-enabled
-@app.route('/tasks/<int:task_id>', method=['GET'])
+@app.route('/tasks/<int:task_id>', methods=['GET'])
 @limiter.limit("5 per 10 seconds")  # Burst Limit
 @limiter.limit("20 per minute")     # Throttle Limit
-def get_single_task(task_id):
+def get_task(task_id):
     task = next((task for task in tasks if task['id']==task_id), None)
     if task:
         return jsonify(add_hateoas_links(task))
