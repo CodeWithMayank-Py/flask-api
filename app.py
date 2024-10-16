@@ -33,7 +33,11 @@ def add_hateoas_links(task):
     task_id = task['id']
     task['links']= [
         {"rel": "self", "href": url_for('get_task', task_id=task_id, _external=True)},
+        {"rel": "delete", "href": url_for('delete_task', task_id=task_id, _external=True), "method": "DELETE"},
+        {"rel": "update", "href": url_for('update_task', task_id=task_id, _external=True), "method": "PUT"},
+        {"rel": "list", "href": url_for('get_task', _external=True), "method": "GET"}
     ]
+    return task
 
 
 # Homepage
@@ -81,6 +85,16 @@ def get_tasks():
         Response: A JSON response containing the tasks.
     """
     return jsonify(tasks)
+
+# GET: Fetch a single task [rate limiting + throttling], HATEOAS-enabled
+@app.route('/tasks/<int:task_id>', method=['GET'])
+@limiter.limit("5 per 10 seconds")  # Burst Limit
+@limiter.limit("20 per minute")     # Throttle Limit
+def get_single_task(task_id):
+    task = next((task for task in tasks if task['id']==task_id), None)
+    if task:
+        return jsonify(add_hateoas_links(task))
+    return jsonify({"error": "Task not found"}), 404
 
 
 # POST: Create a new task [rate limiting + throttling]
