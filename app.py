@@ -39,6 +39,13 @@ def add_hateoas_links(task):
     ]
     return task
 
+# Standardized error response format
+def error_response(status_code, error, message):
+    response = jsonify({"error": error, "message": message})
+    response.status_code = status_code
+    return response
+
+
 
 # Homepage
 @app.route('/')
