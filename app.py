@@ -75,7 +75,7 @@ def homepage():
     return "Hello, Developers! Welcome to simple flask APIs."
 
 # Get fetch all users using GET method [Rate limiting + throttling]
-@app.route('/users', methods=['GET'])
+@app.route('/api/v1/users', methods=['GET'])
 @limiter.limit("5 per 10 seconds")  # Burst limit
 @limiter.limit("20 per minute")     # Throttle limit
 def get_users():
@@ -94,7 +94,7 @@ def get_users():
 
 
 # GET: Fetch a single task [rate limiting + throttling], HATEOAS-enabled
-@app.route('/tasks/<int:task_id>', methods=['GET'])
+@app.route('/api/v1/tasks/<int:task_id>', methods=['GET'])
 @limiter.limit("5 per 10 seconds")  # Burst Limit
 @limiter.limit("20 per minute")     # Throttle Limit
 def get_task(task_id):
@@ -115,7 +115,7 @@ def get_task(task_id):
 
 
 # Get fetch all the tasks [rate limiting + throttling], HATEOAS-enabld
-@app.route('/tasks', methods=['GET'])
+@app.route('/api/v1/tasks', methods=['GET'])
 @limiter.limit("5 per 10 seconds")  # Burst limit
 @limiter.limit("20 per minute")     # Throttle limit
 def get_tasks():
@@ -134,7 +134,7 @@ def get_tasks():
 
 
 # POST: Create a new task [rate limiting + throttling]
-@app.route('/tasks', methods=['POST'])
+@app.route('/api/v1/tasks', methods=['POST'])
 @limiter.limit("5 per 10 seconds")  # Burst limit
 @limiter.limit("20 per minute")     # Throttle limit
 def create_task():
@@ -162,7 +162,7 @@ def create_task():
     return jsonify(add_hateoas_links(new_task)), 201 # 201: Task Creation
 
 # PUT: Update an existing Task [rate limiting + throttling], [Idempotent]
-@app.route('/tasks/<int:task_id>', methods=['PUT'])
+@app.route('/api/v1/tasks/<int:task_id>', methods=['PUT'])
 @limiter.limit("5 per 10 seconds")  # Burst limit
 @limiter.limit("20 per minute")     # Throttle limit
 def update_task(task_id):
@@ -196,7 +196,7 @@ def update_task(task_id):
     return jsonify(add_hateoas_links(new_task)), 201   # Returns 201 created if new task is added
 
 # DELETE: Delete a task [rate limiting + throttling], [Idempotent]
-@app.route('/tasks/<int:task_id>', methods=['DELETE'])
+@app.route('/api/v1/tasks/<int:task_id>', methods=['DELETE'])
 @limiter.limit("5 per 10 seconds")  # Burst limit
 @limiter.limit("20 per minute")     # Throttle limit
 def delete_task(task_id):
