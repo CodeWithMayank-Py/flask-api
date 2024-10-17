@@ -45,6 +45,22 @@ def error_response(status_code, error, message):
     response.status_code = status_code
     return response
 
+# Custom Handlers
+@app.errorhandler(404)
+def not_found(error):
+    return error_response(404, "Not Found", "The requested resource does not exist")
+
+@app.errorhandler(400)
+def bad_request(error):
+    return error_response(400, "Bad Request", "The request could not be understood or was missing required parameters")
+
+@app.errorhandler(401)
+def unauthorized(error):
+    return error_response(401, "Unauthorized", "Authentication is required to access this resource")
+
+@app.errorhandler(429)
+def too_many_request(error):
+    return error_response(429, "Too Many Requests", "You have exceeded the request limit. Please try again later.")
 
 
 # Homepage
@@ -125,6 +141,8 @@ def create_task():
     """
     Create a new task.
     
+    A
+    
     rate limiting + throttling.
     
     This function creates a new task from the JSON data provided in the request.
@@ -136,6 +154,9 @@ def create_task():
                 the HTTP code 201 indicating successfully creation of task.
     """
     new_task = request.json
+    if not new_task or "title" not in new_task:
+        return bad_request("Missing 'title' field in request body")
+    
     new_task['id'] = len(tasks)+ 1
     tasks.append(new_task)
     return jsonify(add_hateoas_links(new_task)), 201 # 201: Task Creation
